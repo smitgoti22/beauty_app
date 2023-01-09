@@ -1,5 +1,6 @@
 import 'package:beauty_app/api_service/get_product_data_service.dart';
 import 'package:beauty_app/componets/container.dart';
+import 'package:beauty_app/componets/favourite_button.dart';
 import 'package:beauty_app/componets/text.dart';
 import 'package:flutter/material.dart';
 
@@ -43,6 +44,7 @@ class _HomePageState extends State<HomePage> {
               children: [
                 Expanded(
                     child: GridView.builder(
+                      clipBehavior: Clip.none,
                       itemCount: snapshot.data!.length,
                       padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 10),
                       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
@@ -66,17 +68,28 @@ class _HomePageState extends State<HomePage> {
                               mainAxisAlignment: MainAxisAlignment.start,
                               children: [
                                 /// image
-
-                                Padding(
-                                  padding: EdgeInsets.only(left: 15,right: 15),
-                                  child: SizedBox(
-                                    height: height * 0.2,
-                                    width: width,
-                                    child: Image.network(
-                                      product!.imageLink!.toString(),
-                                      fit: BoxFit.cover,
+                                Stack(
+                                  children: [
+                                    Padding(
+                                      padding: EdgeInsets.only(left: 15,right: 15),
+                                      child: SizedBox(
+                                        height: height * 0.2,
+                                        width: width,
+                                        child: Image.network(
+                                          product!.imageLink!.toString(),
+                                          fit: BoxFit.cover,
+                                        ),
+                                      ),
                                     ),
-                                  ),
+                                    const Positioned(
+                                      right: 5,
+                                      top: 5,
+                                      child: CircleAvatar(
+                                          radius: 20,
+                                          backgroundColor: Colors.white,
+                                          child: Center(child: FavButton())),
+                                    ),
+                                  ],
                                 ),
 
                                 SizedBox(
@@ -140,7 +153,7 @@ class _HomePageState extends State<HomePage> {
             );
           }
         else {
-          return Center(child: CircularProgressIndicator());
+          return const Center(child: CircularProgressIndicator());
         }
       },)
     );
